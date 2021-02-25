@@ -18,7 +18,7 @@ from django.urls import path,include
 from mysite.myapp import views
 urlpatterns = [
     path('', views.home, name='home'),
-    path('secret/', views.secret_page,name='secret'),
+    path('secret/', views.SMA,name='secret'),
     path('signup/', views.signup, name='signup'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
