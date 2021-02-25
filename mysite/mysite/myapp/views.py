@@ -20,9 +20,45 @@ def signup(request):
     return render(request, 'registration/signup.html',{'form':form})
 
 @login_required
-def secret_page(request):
-    return render(request, 'secret_page.html')
+def SMA(request):
+    import pandas as pd
+    from matplotlib import pyplot as plt
+    import urllib,base64
+    import io
+    from fastquant import get_yahoo_data , get_stock_data
+    #inp = str(input())
+    df = get_stock_data('AAPL', '2018-01-01', '2019-01-01')
+    ma30 = df.close.rolling(30).mean()
+    close_ma30 = pd.concat([df.close, ma30], axis=1).dropna()
+    close_ma30.columns = ['Closing Price', 'Simple Moving Average (30 day)']
+    ma30.dropna()
+    close_ma30.plot(figsize=(20, 6))
+    plt.title("Daily Closing Prices vs 30 day SMA of AAPL\nfrom 2018-01-01 to 2019-01-01", fontsize=20)
+    fig = plt.gcf()
+    buf = io.BytesIO()
+    fig.savefig(buf,format='png')
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+    return render(request, 'secret_page.html',{'data':uri})
 
+def Backtest_sma(request):
+    from fastquant import backtest
+    import pandas as pd
+    from matplotlib import pyplot as plt
+    import urllib,base64
+    import io
+    from fastquant import get_yahoo_data , get_stock_data
+    df = get_stock_data('AAPL', '2018-01-01', '2019-01-01')
+    #%matplotlib
+    backtest('smac', jfc, fast_period=15, slow_period=40)
+    fig = plt.gcf()
+    buf = io.BytesIO()
+    fig.savefig(buf,format='png')
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+    return render(request,'secret_page.html',{'data1':uri})
 
 class SecretPage(LoginRequiredMixin, TemplateView):
     template_name = 'secret_page.html'
