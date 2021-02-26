@@ -27,8 +27,8 @@ def SMA(request):
     import io
     from fastquant import get_yahoo_data , get_stock_data
     #inp = str(input())
-    df = get_stock_data('AAPL', '2018-01-01', '2019-01-01')
-    ma30 = df.close.rolling(30).mean()
+    df = get_stock_data('AAPL', '2021-01-01', '2021-02-25')
+    ma30 = df.close.rolling(5).mean()
     close_ma30 = pd.concat([df.close, ma30], axis=1).dropna()
     close_ma30.columns = ['Closing Price', 'Simple Moving Average (30 day)']
     ma30.dropna()
