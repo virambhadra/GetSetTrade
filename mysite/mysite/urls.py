@@ -19,6 +19,7 @@ from mysite.myapp import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('secret/', views.SMA,name='secret'),
+    path('secret_submit/', views.SMA_submit,name='secret_submit'),
     path('signup/', views.signup, name='signup'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
