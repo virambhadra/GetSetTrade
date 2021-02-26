@@ -32,8 +32,14 @@ def SMA(request):
 
 def SMA_submit(request):
     symbol = request.POST['name']
-    start_date = '-'.join(request.POST['sdate'].split('/')[::-1])
-    end_date  = '-'.join(request.POST['ldate'].split('/')[::-1])
+    start_date = request.POST['sdate'].split('/')[::-1]
+    end_date  = request.POST['ldate'].split('/')[::-1]
+    start_date[2],start_date[1]=start_date[1],start_date[2]
+    end_date[1],end_date[2] = end_date[2],end_date[1]
+    start_date = '-'.join(start_date)
+    end_date = '-'.join(end_date)
+    # start_date = request.POST['sdate'].split('/')
+    # end_date = request.POST['ldate'].split('/')
     print(symbol,start_date,end_date,sep='\n')
     #df = get_stock_data('AAPL', '2021-01-01', '2021-02-02')
     df = get_stock_data(symbol, start_date, end_date)
